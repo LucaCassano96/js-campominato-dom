@@ -1,0 +1,102 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+header{
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+header h1{
+    color: blue;
+    font-size: 3rem;
+}
+
+.play{
+    color: blue;
+    padding: 15px 20px;
+    border-radius: 15px;
+    background-color: cornflowerblue;
+    font-size: 18px;
+}
+
+.play:hover{
+    background-color: rgb(79, 136, 242);
+}
+
+main{
+    width: 100%;
+    height: 550px;
+    background-color: aqua;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    
+}
+
+#grid{
+    width: 450px;
+    height: 450px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#pointscontainer {
+    width: 200px;
+    min-height: 200px;
+    border: 2px solid #ffffff;
+    
+}
+
+.square{
+    width: 45px;
+    height: 45px;
+    border: 2px solid #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.points, .results{
+    color: #fff;
+    padding: 20px;
+    font-size: 18px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.results .gameover{
+    color: crimson;
+    font-size: 25px;
+}
+
+.background_blue{
+    background-color: blue;
+}
+
+.background_red{
+    background-color: red;
+}
+
+
+.dispalynone{
+    display: none;
+}
+
+.dispalyactive{
+display: block;
+color: #fff;
+font-size: 18px;
+}
+
+
+footer{
+    width: 100%;
+    height: calc(100% - 650px);
+}
+
