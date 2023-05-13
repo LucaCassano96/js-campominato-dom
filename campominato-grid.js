@@ -1,174 +1,156 @@
 
-/* creo la funzione per generare al click la griglia */
 const main = document.querySelector("main");
 
 let startGame = document.querySelector(".play");
+let points = 0;
 
-startGame.addEventListener ("click",  
-function() {
+startGame.addEventListener("click",
+    function () {
 
-/* creiamo spazio vuoto */
+        /* creiamo spazio vuoto */
 
-main.innerHTML = "";
+        main.innerHTML = "";
 
-/* creo il contenitore della griglia */
+        /* creo il contenitore della griglia */
 
-const gridContainer = `<div id="grid"></div>`;
- main.innerHTML += gridContainer;
-
-
- /* creo il contatore dei punti */
- const pointsContainer = `<div id="pointscontainer"></div>`;
- main.innerHTML += pointsContainer;
- const points = document.querySelector("#pointscontainer");
- const divpoints = `<div class="points">points:</div> <div class="results">results:</div>`
- points.innerHTML += divpoints;
-
-/* seleziono il container di grid */
-
- const container = document.querySelector("#grid");
-
- /* arrey numeri da 1 a 100 */
-
- let listaNumeriOrdinata = listaNumOrdinata ("1", "84")
+        const gridContainer = `<div id="grid"></div>`;
+        main.innerHTML += gridContainer;
 
 
+        /* creo il contatore dei punti */
+        const pointsContainer = `<div id="pointscontainer"></div>`;
+        main.innerHTML += pointsContainer;
 
- /* creo i quadrati che comporranno la griglia */
+        const pointsContainerHtml = document.querySelector("#pointscontainer");
+        const divpoints = `<div class="points">points:<div class="points-values">0</div></div> <div class="results">results:</div>`
+        pointsContainerHtml.innerHTML += divpoints;
 
- for (let i = 0; i < listaNumeriOrdinata.length; i++) {
+        //reset points
+        points = 0
 
-    /* richiamo la funzione per creare il div  */
-    const newSquare = square("div", "square");
+        /* seleziono il container di grid */
 
-    /* creo lo span che conterrà il numero */
+        const container = document.querySelector("#grid");
 
-    const newSpan = document.createElement("span"); 
-    newSpan.append(listaNumeriOrdinata[i]);
-    newSquare.append(newSpan);
-    newSpan.classList.add("dispalynone");
-    
-    
-    /* funzione che al click aggiungo classe background e dispalyactive */
-    newSquare.addEventListener("click",
-    function() {
+        /* arrey numeri da 1 a 100 */
 
-    newSquare.classList.add("background_blue");
-    newSpan.classList.add("dispalyactive");
-    const points = document.querySelector(".points")
-    let point = 0;
-    point ++ ;
-    const divpoints = `<div>${point}</div>`
-
-    
-    
-
-    points.innerHTML += divpoints;
-    console.log(newSpan);
-    console.log(point);
-
-    }
-
-    );
-
-    container.append(newSquare);
-
- }
-
- /* arrey numeri casuali da 1 a 16 */
-
- let listaNumeriNonOrdinata = listaNumNonOrdinata ("1", "16")
-
-for (let i = 0; i < listaNumeriNonOrdinata.length; i++) {
-
-    /* richiamo la funzione per creare il div  */
-    const newSquare = square("div", "square");
-
-    /* creo lo span che conterrà il numero */
-
-    const newSpan = document.createElement("span"); 
-    newSpan.append(listaNumeriNonOrdinata[i]);
-    newSquare.append(newSpan);
-    newSpan.classList.add("dispalynone");
-    
-    
-    /* funzione che al click aggiungo classe background e dispalyactive */
-    newSquare.addEventListener("click",
-    function() {
-
-    newSquare.classList.add("background_red");
-    newSpan.classList.add("dispalyactive");
-
-    const points = document.querySelector(".results")
-    const divpoints = `<div class = "gameover"> Hai perso!!</div>`
-    points.innerHTML += divpoints;
-    console.log(newSpan);
+        let gridElements = getGridElements(1, 100)
 
 
-    }
+        /* creo i quadrati che comporranno la griglia */
 
-    );
+        for (let i = 0; i < gridElements.length; i++) {
 
-    container.append(newSquare);
+            const gridElement = gridElements[i];
 
- }
-  
+            /* richiamo la funzione per creare una casella  */
+            const square = createSquare("div", gridElement);
+            container.append(square);
 
-})
+        }
 
-
-  
-
-
+    })
 
 
 /* Funzioni */
 
-        /* creare la griglia */
+//crea la casella
+function createSquare(div, element) {
 
-function square(div, classAdd) {
+    // creo il container della casella
+    const squareContainer = document.createElement(div);
+    squareContainer.classList.add('square');
+
+    // creo il contenuto della casella
+    const squareContent = document.createElement("span");
+    squareContent.append(element);
+
+    // aggiungo il valore alla casella e la rendo invisibile
+    squareContainer.append(squareContent);
+    squareContent.classList.add("dispalynone");
+
+    // aggiungo il listener per ogni casella
+    squareContainer.addEventListener("click", function (event) {
+
+        const squareValue = event.target.children[0].innerText
+
+        if (squareValue === '💣') {
+
+            squareContainer.classList.add("background_red");
+            squareContent.classList.add("dispalyactive");
+
+            const points = document.querySelector(".results")
+            const divpoints = `<div class = "gameover"> Hai perso!!</div>`
+            points.innerHTML += divpoints;
+
+            
+        
+
+        } else {
+
+            squareContainer.classList.add("background_blue");
+            squareContent.classList.add("dispalyactive");
+
+            points += 1
+
+            const pointsDiv = document.querySelector(".points-values")
+            pointsDiv.innerHTML = points;
+
+        }
 
 
-    const grid = document.createElement(div);
-    grid.classList.add(classAdd);
-    return grid
-    
+    });
+
+    return squareContainer
+
 }
 
-        /* creare una lista di numeri ordinata  */
-function listaNumOrdinata(min, max) {
 
-    const arreyOrdinato = []
-    
+//crea un array di numeri e bombe
+function getGridElements(min, max) {
+
+    const gridElements = []
+    const bombs = getArrayOfBombs(16)
+
     for (let i = min; i <= max; i++) {
 
-        arreyOrdinato.push(i)
-        
-    }
-    
-    return arreyOrdinato;
-} 
-
-
-     /* creare una lista di numeri casuali */
-
-function listaNumNonOrdinata(min, max) {
-    
-    const arreyNonOrdinato = [];
-
-
-    while (arreyNonOrdinato.length < max) {
-
-        const nuovoNum = Math.floor(Math.random() * (max - min +1) + min);
-
-        if (!arreyNonOrdinato.includes(nuovoNum)) {
-            arreyNonOrdinato.push(nuovoNum);
+        if (bombs.includes(i)) {
+            gridElements.push('💣')
+        } else {
+            gridElements.push(i)
         }
+
     }
 
-    return arreyNonOrdinato
+    console.log(gridElements)
+
+    return gridElements;
 
 }
 
 
+//crea un array di bombe 
+function getArrayOfBombs(numOfBombs) {
+
+    const arrayOfBombs = []
+
+    while (arrayOfBombs.length < numOfBombs) {
+
+        const newBomb = getRandomNumber(1, 100);
+
+        if (!arrayOfBombs.includes(newBomb)) {
+            arrayOfBombs.push(newBomb)
+        }
+
+    }
+
+    return arrayOfBombs;
+
+}
+
+
+//genera numero random da min a max
+function getRandomNumber(min, max) {
+    return min + Math.floor(Math.random() * (max - min));
+}
 

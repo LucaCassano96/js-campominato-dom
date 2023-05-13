@@ -75,6 +75,10 @@ main{
     font-size: 25px;
 }
 
+.nopointer{
+cursor: none;
+}
+
 .background_blue{
     background-color: blue;
 }
